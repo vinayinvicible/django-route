@@ -121,32 +121,32 @@ def test_redirect_router(client, admin_client, router, destination):
     assert_string_equal(response.content, 'destination')
 
 
-@override_settings(ENABLE_PROXY_ROUTING=False)
 def test_proxy_router_disabled(client, admin_client, router, destination):
-    router.action = 'proxy'
-    router.save()
+    with override_settings(ENABLE_PROXY_ROUTING=False):
+        router.action = 'proxy'
+        router.save()
 
-    response = client.get(router.source)
-    assert response.status_code == 200
-    assert_string_equal(response.content, 'home')
+        response = client.get(router.source)
+        assert response.status_code == 200
+        assert_string_equal(response.content, 'home')
 
-    response = admin_client.get(router.source)
-    assert response.status_code == 200
-    assert_string_equal(response.content, 'home')
+        response = admin_client.get(router.source)
+        assert response.status_code == 200
+        assert_string_equal(response.content, 'home')
 
 
-@override_settings(ENABLE_PROXY_ROUTING=True)
 def test_proxy_router_enabled(client, admin_client, router, destination):
-    router.action = 'proxy'
-    router.save()
+    with override_settings(ENABLE_PROXY_ROUTING=True):
+        router.action = 'proxy'
+        router.save()
 
-    response = client.get(router.source)
-    assert response.status_code == 200
-    assert_string_equal(response.content, 'home')
+        response = client.get(router.source)
+        assert response.status_code == 200
+        assert_string_equal(response.content, 'home')
 
-    response = admin_client.get(router.source)
-    assert response.status_code == 200
-    assert_string_equal(response.content, 'destination')
+        response = admin_client.get(router.source)
+        assert response.status_code == 200
+        assert_string_equal(response.content, 'destination')
 
 
 def test_unsafe_method(admin_client, router, destination):
