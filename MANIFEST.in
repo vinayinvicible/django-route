@@ -1,0 +1,4 @@
+include README.md LICENSE
+recursive-include django_routing *
+recursive-include django_routing *.pyc
+recursive-include tests *
