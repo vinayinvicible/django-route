@@ -3,7 +3,7 @@ Conditional url routing for django
 
 ## Installation
 
-TODO: Describe the installation process
+pip install django-routing
 
 ## Contributing
 
@@ -15,7 +15,10 @@ TODO: Describe the installation process
 
 ## Usage
 
-TODO: Write usage instructions
+1. Create a router for the url
+2. Add destination url
+3. Provide the action (301/302/proxy)
+4. Describe the condition in templating language
 
 ## License
 
