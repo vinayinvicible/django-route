@@ -3,12 +3,12 @@ Installation
 
 Use pip to install from PyPI::
 
-    pip install django-routing
+    pip install django-route
 
-Add ``django_routing`` to your settings.py file::
+Add ``django_route`` to your settings.py file::
 
     INSTALLED_APPS = (
         ...
-        'django_routing',
+        'django_route',
         ...
     )

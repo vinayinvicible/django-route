@@ -6,13 +6,12 @@ import re
 
 import django.core.validators
 import django.db.models.deletion
+import django_route.conf
 from django.db import migrations, models
-
-import django_routing.conf
 
 
 def get_action_choices():
-    if django_routing.conf.settings.ENABLE_PROXY_ROUTING:
+    if django_route.conf.settings.ENABLE_PROXY_ROUTING:
         return (
             ('301', 'Permanent redirect'),
             ('302', 'Temporary redirect'),
@@ -63,7 +62,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='destination',
             name='router',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='destinations', to='django_routing.Router'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='destinations', to='django_route.Router'),
         ),
         migrations.AlterUniqueTogether(
             name='destination',

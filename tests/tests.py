@@ -6,7 +6,7 @@ from django.test import override_settings
 from django.utils.crypto import constant_time_compare
 # noinspection PyUnresolvedReferences
 from django.utils.six.moves.urllib.parse import urlparse
-from django_routing.utils import modify_url
+from django_route.utils import modify_url
 
 pytestmark = pytest.mark.django_db
 

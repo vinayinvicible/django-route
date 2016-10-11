@@ -2,7 +2,7 @@ from distutils.core import setup
 
 from setuptools import find_packages
 
-import django_routing
+import django_route
 
 try:
     with open('README.md') as readme:
@@ -11,8 +11,8 @@ except:
     long_description = ''
 
 setup(
-    name='django_routing',
-    version=django_routing.__version__,
+    name='django_route',
+    version=django_route.__version__,
     packages=find_packages(),
     url='https://github.com/vinayinvicible/django-requests',
     license='MIT',
