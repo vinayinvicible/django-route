@@ -27,7 +27,7 @@ class Destination(models.Model):
     )
 
     class Meta:
-        unique_together = ('router', 'url')
+        unique_together = ('url', 'append_params')
 
     def __str__(self):
         return '{0.weight} - {0.url}'.format(self)
@@ -51,9 +51,6 @@ def get_action_choices():  # pragma: no cover
 
 
 class Router(models.Model):
-    """
-
-    """
     PERMANENT = PERMANENT
     TEMPORARY = TEMPORARY
     PROXY = PROXY

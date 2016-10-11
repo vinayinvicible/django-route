@@ -4,10 +4,24 @@ import sys
 
 from django import forms
 from django.contrib import admin
+from django.http import QueryDict
 from django.utils import six
 
 from .models import Destination, Router
 from .utils import get_condition_result
+
+
+class DestinationForm(forms.ModelForm):
+
+    def clean_append_params(self):
+        params = self.cleaned_data.get('append_params')
+        if params:
+            try:
+                params = QueryDict(params).urlencode()
+            except Exception as e:
+                tb = sys.exc_info()[2]
+                six.reraise(forms.ValidationError, forms.ValidationError(e), tb)
+        return params
 
 
 class DestinationInline(admin.TabularInline):
@@ -24,8 +38,7 @@ class RouteAdminForm(forms.ModelForm):
                 get_condition_result(condition=condition, request=self.request)
             except Exception as e:
                 tb = sys.exc_info()[2]
-                six.reraise(forms.ValidationError,
-                            forms.ValidationError(e), tb)
+                six.reraise(forms.ValidationError, forms.ValidationError(e), tb)
         return condition
 
 
