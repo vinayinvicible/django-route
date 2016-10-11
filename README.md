@@ -1,9 +1,9 @@
-# django-routing
+# django-route
 Conditional url routing for django
 
 ## Installation
 
-pip install django-routing
+pip install django-route
 
 ## Contributing
 

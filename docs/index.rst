@@ -1,10 +1,10 @@
-.. django-routing documentation master file, created by
+.. django-route documentation master file, created by
    sphinx-quickstart on Sun Oct  9 05:15:00 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
 
-Welcome to django-routing's documentation!
+Welcome to django-route's documentation!
 ==========================================
 
 .. toctree::
@@ -29,9 +29,9 @@ Contributing
 Issues
 ******
 
-Use the GitHub `issue tracker`_ for django-routing to submit bugs, issues, and feature requests.
+Use the GitHub `issue tracker`_ for django-route to submit bugs, issues, and feature requests.
 
-.. _issue tracker: https://github.com/vinayinvicible/django-routing/issues
+.. _issue tracker: https://github.com/vinayinvicible/django-route/issues
 
 
 Indices and tables

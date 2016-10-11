@@ -1,4 +1,4 @@
 include README.md LICENSE
-recursive-include django_routing *
-recursive-include django_routing *.pyc
+recursive-include django_route *
+recursive-include django_route *.pyc
 recursive-include tests *

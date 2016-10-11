@@ -22,7 +22,7 @@ except ImportError:  # pragma: no cover
 
 CONDITION_TEMPLATE = "{{% if {} %}}True{{% endif %}}"
 
-logger = logging.getLogger('django_routing')
+logger = logging.getLogger('django_route')
 logger.setLevel(logging.DEBUG)
 
 

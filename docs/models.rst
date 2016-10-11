@@ -1,12 +1,12 @@
-django-routing's models
+django-route's models
 =======================
 
 Router
 ------
-.. autoclass:: django_routing.models.Router
+.. autoclass:: django_route.models.Router
 
 
 Destination
 -----------
-.. autoclass:: django_routing.models.Destination
+.. autoclass:: django_route.models.Destination
 

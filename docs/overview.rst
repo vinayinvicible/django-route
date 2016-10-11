@@ -12,9 +12,9 @@ There are two ways in which you can enable routing.
 Decorator
 ---------
 
-If you want to limit routing to specific views, add the ``django_routing.decorators.enable_routing`` decorator to those views.::
+If you want to limit routing to specific views, add the ``django_route.decorators.enable_routing`` decorator to those views.::
 
-    from django_routing.decorators import enable_routing
+    from django_route.decorators import enable_routing
 
     @enable_routing
     def view(request, *args, **kwargs):
@@ -28,7 +28,7 @@ If you wish to enable routing for all the urls, add ``RoutingRequestMiddleware``
 
     MIDDLEWARE_CLASSES = [
         ...
-        'django_routing.middlewares.RoutingRequestMiddleware',
+        'django_route.middlewares.RoutingRequestMiddleware',
         ...
     ]
 

@@ -1,6 +1,5 @@
 import pytest
-
-from django_routing.models import Router, Destination
+from django_route.models import Destination, Router
 
 pytestmark = pytest.mark.django_db
 
