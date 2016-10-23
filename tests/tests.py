@@ -214,6 +214,20 @@ def test_router_params(admin_client, router, destination):
     assert QueryDict(response.request['QUERY_STRING']) == QueryDict('new=params&missing={param}&router_code=code')
 
 
+# This is just to test for infinite recursion
+def test_self_reference(router, destination, admin_client):
+    destination.url = '/'
+    destination.save()
+
+    admin_client.get('/', follow=True)
+
+    destination.append_params = 'key=value'
+    destination.carry_params = True
+    destination.save()
+
+    admin_client.get('/?v=1', follow=True)
+
+
 def test_manual_tampering(router, destination, admin_client):
     destination.url = '/'
     destination.append_params = 'v=1'
