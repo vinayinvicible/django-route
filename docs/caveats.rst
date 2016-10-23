@@ -16,11 +16,9 @@ You need to enable ``proxy`` setting by explicitly setting ``ENABLE_PROXY_ROUTIN
     Either it will raise exception or gives empty data or in the worst case deadlock.
 
 .. note::
-    If you still want to enable proxy routing, atleast make sure that you are not doing any of the following
+    Proper care has been taken to prevent these issues. Still there might an issue which I might have overlooked.
 
-        * Proxy handler routes through middlewares instead of bypassing directly to the view.
-          So, you should not be using body, POST or FILES inside middlewares.
-        * Wrapping view inside another view/decorator which plays with the data stream
+    Hence the proxy feature is disabled by default.
 
 .. warning::
 
