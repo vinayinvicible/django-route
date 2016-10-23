@@ -5,7 +5,7 @@ from setuptools import find_packages
 import django_route
 
 try:
-    with open('README.md') as readme:
+    with open('README.rst') as readme:
         long_description = readme.read()
 except:
     long_description = ''

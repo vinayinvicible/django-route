@@ -5,16 +5,16 @@
 
 
 Welcome to django-route's documentation!
-==========================================
+========================================
 
 .. toctree::
    :maxdepth: 2
 
    installation
    overview
+   models
    execution
    caveats
-   models
 
 
 Contributing

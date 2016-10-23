@@ -6,7 +6,7 @@ import random
 import string
 from functools import reduce
 
-from django.core.wsgi import get_wsgi_application
+from django.core.servers.basehttp import get_internal_wsgi_application
 from django.http import HttpResponseRedirect, QueryDict
 from django.template import RequestContext, Template
 # noinspection PyUnresolvedReferences
@@ -26,6 +26,7 @@ logger = logging.getLogger('django_route')
 logger.setLevel(logging.DEBUG)
 
 
+# noinspection PyProtectedMember
 def route(request):
     if getattr(request, 'routing_processed', False):
         return
@@ -61,14 +62,27 @@ def route(request):
     if not destination:
         return
 
+    new_params = safe_format(destination.append_params, router_code=router.code)
     destination_url = modify_url(
         old_path=request.get_full_path(),
         new_path=destination.url,
         carry_params=destination.carry_params,
-        new_params=safe_format(
-            destination.append_params, router_code=router.code
-        ),
+        new_params=new_params,
     )
+
+    if urlparse(destination_url).path == request.path_info:
+        if new_params:
+            if request.GET:
+                new_query_dict = QueryDict(new_params)
+                for key, values_list in request.GET.lists():
+                    if key in new_query_dict:
+                        if values_list != new_query_dict.getlist(key):
+                            break
+                else:
+                    return
+        else:
+            return
+
     if router.action in router.REDIRECTS:
         return HttpResponseRedirect(
             redirect_to=destination_url, status=int(router.action)
@@ -76,17 +90,22 @@ def route(request):
 
     parse = urlparse(destination_url)
     if settings.ENABLE_PROXY_ROUTING and router.action == router.PROXY:
-        handler = get_wsgi_application()
+        handler = get_internal_wsgi_application()
         # noinspection PyProtectedMember
         # django < 1.10
         if handler._request_middleware is None:  # pragma: no cover
             handler.load_middleware()
 
-        # FIXME: deepcopy with stream mock?
+        # XXX deepcopy failes with streams
         environ = copy.copy(request.environ)
         environ['PATH_INFO'] = destination.url
         environ['QUERY_STRING'] = parse.query
         proxy_request = handler.request_class(environ=environ)
+        # XXX We are doing this to avoid potential deadlocks or possible
+        # data corruption with data being read multiple times from input stream
+        proxy_request._body = request.body
+        proxy_request._stream = request._stream
+        proxy_request._read_started = request._read_started
         response = handler.get_response(proxy_request)
         return response
 

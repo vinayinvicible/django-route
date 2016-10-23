@@ -1,0 +1,9 @@
+Django>=1.8,<1.11
+Fabric
+pre-commit
+pytest
+pytest-cov
+pytest-django
+Sphinx
+tox
+twine

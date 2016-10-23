@@ -12,3 +12,7 @@ Add ``django_route`` to your settings.py file::
         'django_route',
         ...
     )
+
+Run migrations using::
+
+    python manage.py migrate django_route
