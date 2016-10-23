@@ -84,6 +84,7 @@ class Router(models.Model):
         )
     )
     condition = models.TextField(
+        default='"*"',
         help_text=_(
             'Condition for routing decision'
         )

@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
                 ('source', models.CharField(help_text='Source path', max_length=255, validators=[django.core.validators.RegexValidator(re.compile('^/(?:[-a-zA-Z0-9_]+/)*$', 32), "Enter a valid 'url path'. Path should start and end with '/'.", 'invalid')])),
                 ('rank', models.PositiveSmallIntegerField(default=1, help_text="Lower the value higher is it's preference", validators=[django.core.validators.MinValueValidator(limit_value=1)])),
                 ('action', models.CharField(choices=get_action_choices(), help_text='Path to be followed from source to destination', max_length=20)),
-                ('condition', models.TextField(help_text='Condition for routing decision')),
+                ('condition', models.TextField(default='"*"', help_text='Condition for routing decision')),
             ],
             options={
                 'ordering': ['source', 'rank'],
