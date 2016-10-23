@@ -95,4 +95,4 @@ class Router(models.Model):
         unique_together = ('source', 'rank')
 
     def __str__(self):
-        return '{0.code} | {0.action} -> {0.source}'.format(self)
+        return '{0.code} | {0.source} -> {0.action}'.format(self)
