@@ -27,7 +27,7 @@ class Destination(models.Model):
     )
 
     class Meta:
-        unique_together = ('url', 'append_params')
+        unique_together = ('router', 'url', 'append_params')
 
     def __str__(self):
         return '{0.weight} - {0.url}'.format(self)

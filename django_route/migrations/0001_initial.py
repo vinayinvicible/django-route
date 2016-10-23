@@ -66,6 +66,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='destination',
-            unique_together=set([('url', 'append_params')]),
+            unique_together=set([('router', 'url', 'append_params')]),
         ),
     ]
