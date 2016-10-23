@@ -26,6 +26,7 @@ logger = logging.getLogger('django_route')
 logger.setLevel(logging.DEBUG)
 
 
+# noinspection PyProtectedMember
 def route(request):
     if getattr(request, 'routing_processed', False):
         return

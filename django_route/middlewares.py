@@ -9,6 +9,7 @@ except ImportError:  # pragma: no cover
         pass
 
 
+# noinspection PyMethodMayBeStatic
 class RoutingRequestMiddleware(MiddlewareMixin):
 
     def process_request(self, request):

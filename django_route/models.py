@@ -26,7 +26,7 @@ class Destination(models.Model):
         max_length=255, blank=True, help_text=_('Params to be appended')
     )
 
-    class Meta:
+    class Meta(object):
         unique_together = ('router', 'url', 'append_params')
 
     def __str__(self):
@@ -90,7 +90,7 @@ class Router(models.Model):
         )
     )
 
-    class Meta:
+    class Meta(object):
         ordering = ['source', 'rank']
         unique_together = ('source', 'rank')
 
