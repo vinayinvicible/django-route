@@ -243,3 +243,10 @@ def test_manual_tampering(router, destination, admin_client):
     query_str_4 = admin_client.get('/?v=3', follow=True).request['QUERY_STRING']
 
     assert QueryDict(query_str_1) == QueryDict(query_str_2) == QueryDict(query_str_3) == QueryDict(query_str_4)
+
+
+def test_routing_disabled(admin_client, router, destination):
+    with override_settings(ROUTING_ENABLED=False):
+        response = admin_client.get(router.source, follow=True)
+        assert response.status_code == 200
+        assert_string_equal(response.content, 'home')

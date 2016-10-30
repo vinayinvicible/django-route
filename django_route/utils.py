@@ -28,6 +28,9 @@ logger.setLevel(logging.DEBUG)
 
 # noinspection PyProtectedMember
 def route(request):
+    if not settings.ROUTING_ENABLED:
+        return
+
     if getattr(request, 'routing_processed', False):
         return
 
