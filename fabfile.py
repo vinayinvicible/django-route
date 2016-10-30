@@ -12,6 +12,7 @@ def clean():
 def bump_version(part='patch'):
     local('pip install --upgrade bumpversion')
     local('bumpversion {}'.format(part))
+    local('git push')
     local('git push --tags')
 
 
