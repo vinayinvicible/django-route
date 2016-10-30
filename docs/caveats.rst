@@ -23,3 +23,18 @@ You need to enable ``proxy`` setting by explicitly setting ``ENABLE_PROXY_ROUTIN
 .. warning::
 
     **YOU HAVE BEEN WARNED!!!**
+
+
+Randomization
+~~~~~~~~~~~~~
+
+Routing does not use any custom cookies to tie the outcome to the user. It rather relies on the session key in deriving the outcome of the destinations.
+
+No matter how many times user visits the source path, destination will always be the same.
+
+.. note::
+    Destination for a user might change if
+
+    * Session key changes. (Session key changes during login/logout)
+
+    * New active destination has been added to the router or weightage of the active destinations has been changed. Since the sample space has been changed, outcome might vary.
