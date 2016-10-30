@@ -6,12 +6,12 @@ Following is the pseudo code for the routing execution model::
     if routing is not enabled for the request (no middleware/no decorator)
         do nothing
 
-    if there is no entry of request.path_info in Router.source
+    if there is no entry of request.path_info in Router.source which is active
         do nothing
 
     if there are multiple entries, order by their rank (ascending order)
         for each router
-            if there are no destinations
+            if there are no active destinations
                 continue with the loop
             if the condition is met then break the loop else continue
         if the for loop did not break
