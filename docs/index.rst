@@ -14,6 +14,7 @@ Welcome to django-route's documentation!
    overview
    models
    execution
+   settings
    caveats
 
 

@@ -1,3 +1,5 @@
+.. _caveats:
+
 Caveats
 =======
 
@@ -9,7 +11,7 @@ You need to enable ``proxy`` setting by explicitly setting ``ENABLE_PROXY_ROUTIN
 **Reason:**
 
     Since the values passed to wsgi.input and wsgi.errors in request environ are io or socket streams, they cannot be deepcopied.
-    So, we endup passing same streams to essentially two different requests.
+    So, we end up passing same streams to essentially two different requests.
     Network data cannot be seeked and cannot be read outside of its content length.
     So, we have to pass the same stream to the proxy handler also.
     The issue is that we cannot read multiple times from wsgi.input.
