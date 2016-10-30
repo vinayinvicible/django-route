@@ -25,6 +25,9 @@ class Destination(models.Model):
     append_params = models.CharField(
         max_length=255, blank=True, help_text=_('Params to be appended')
     )
+    is_active = models.BooleanField(
+        default=True, help_text=_('Active')
+    )
 
     class Meta(object):
         unique_together = ('router', 'url', 'append_params')
@@ -88,6 +91,9 @@ class Router(models.Model):
         help_text=_(
             'Condition for routing decision'
         )
+    )
+    is_active = models.BooleanField(
+        default=True, help_text=_('Active')
     )
 
     class Meta(object):
