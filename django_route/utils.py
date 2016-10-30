@@ -28,6 +28,9 @@ logger.setLevel(logging.DEBUG)
 
 # noinspection PyProtectedMember
 def route(request):
+    if not settings.ROUTING_ENABLED:
+        return
+
     if getattr(request, 'routing_processed', False):
         return
 
@@ -41,22 +44,23 @@ def route(request):
         return
 
     url_path = request.path_info
-    for router in Router.objects.filter(source=url_path).iterator():
-        if not router.destinations.exists():
+    routers = Router.objects.filter(source=url_path, is_active=True)
+    for router in routers.iterator():
+        if not router.destinations.filter(is_active=True).exists():
             continue
         if should_route(condition=router.condition, request=request):
             break
     else:
         # Can be one of the following
-        # 1. No router is found
-        # 2. No destination for the router
+        # 1. No active router is found
+        # 2. No active destination for the router
         # 3. Routing condition is not satisfied
         return
 
     # seed will make sure that outcome will not change for a given session
     random.seed(request.session.session_key)
     destination = weighted_choice(
-        router.destinations.iterator(),
+        router.destinations.filter(is_active=True).iterator(),
         weight_func=lambda dest: dest.weight
     )
     if not destination:
