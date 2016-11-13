@@ -12,8 +12,8 @@ from django.template import RequestContext, Template
 # noinspection PyUnresolvedReferences
 from django.utils.six.moves.urllib.parse import urlparse, urlunparse
 
+from .cache import get_destinations, get_routers
 from .conf import settings
-from .models import Router
 
 try:
     from math import gcd
@@ -44,9 +44,10 @@ def route(request):
         return
 
     url_path = request.path_info
-    routers = Router.objects.filter(source=url_path, is_active=True)
-    for router in routers.iterator():
-        if not router.destinations.filter(is_active=True).exists():
+    routers = get_routers(source=url_path)
+    for router in routers:
+        destinations = get_destinations(router=router)
+        if not destinations:
             continue
         if should_route(condition=router.condition, request=request):
             break
@@ -60,8 +61,7 @@ def route(request):
     # seed will make sure that outcome will not change for a given session
     random.seed(request.session.session_key)
     destination = weighted_choice(
-        router.destinations.filter(is_active=True).iterator(),
-        weight_func=lambda dest: dest.weight
+        destinations, weight_func=lambda dest: dest.weight
     )
     if not destination:
         return

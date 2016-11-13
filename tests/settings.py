@@ -152,3 +152,4 @@ STATIC_URL = '/static/'
 # }
 
 ENABLE_PROXY_ROUTING = True
+ROUTING_CACHE = False
