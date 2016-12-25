@@ -24,6 +24,6 @@ ROUTING_CACHE
 -------------
 .. code-block:: python
 
-    default: True
+    default: False
 
 Will cache the routers and corresponding destinations using `lru_cache` if set to True.

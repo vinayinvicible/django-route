@@ -74,6 +74,7 @@ def route(request):
         new_params=new_params,
     )
 
+    # Handle self redirecting urls properly
     if urlparse(destination_url).path == request.path_info:
         if new_params:
             if request.GET:
