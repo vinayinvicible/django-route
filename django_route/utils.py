@@ -7,6 +7,7 @@ import string
 from functools import reduce
 
 from django.core.servers.basehttp import get_internal_wsgi_application
+from django.db import transaction
 from django.http import HttpResponseRedirect, QueryDict
 from django.template import RequestContext, Template
 # noinspection PyUnresolvedReferences
@@ -137,7 +138,13 @@ def should_route(condition, request):
 
 def get_condition_result(condition, request=None):
     template = Template(CONDITION_TEMPLATE.format(condition))
-    return template.render(context=RequestContext(request=request))
+
+    # Always assume that the end-user is dumb
+    with transaction.atomic():
+        try:
+            return template.render(context=RequestContext(request=request))
+        finally:
+            transaction.set_rollback(rollback=True)
 
 
 def modify_url(old_path, new_path='', carry_params=True, new_params=None):

@@ -276,3 +276,20 @@ def test_caching_enabled(admin_client, router, destination):
             assert_string_equal(response.content, 'home')
             # Only the router query
             assert len(c) == 1
+
+
+def test_stupidity_in_templates(admin_client, admin_user, router, destination):
+    """
+    Nobody would willingly set alters_data to False.
+    But if the model method is overridden in subclasses
+    alters_data needs to be set again.
+    """
+    router.condition = 'request.user.delete'
+    router.save()
+    admin_client.get(router.source, follow=True)
+    admin_user.refresh_from_db()
+
+    # setting admin_user.delete.alters_data throws errors.
+    admin_user.delete.__dict__['alters_data'] = False
+    admin_client.get(router.source, follow=True)
+    admin_user.refresh_from_db()
