@@ -195,17 +195,11 @@ def get_random_key(dictionary):
 
 
 def normalize_dict_values(dictionary):
-    if not dictionary:  # pragma: no cover
-        return dictionary
-
-    l_gcd = gcd_of_list(list(dictionary.values()))
+    l_gcd = gcd_of_list(dictionary.values())
     if l_gcd:
         return {key: int(value / l_gcd) for key, value in dictionary.items()}
     return {}
 
 
 def gcd_of_list(l):
-    if not l:  # pragma: no cover
-        return
-
-    return reduce(gcd, l)
+    return reduce(gcd, l, 0)
