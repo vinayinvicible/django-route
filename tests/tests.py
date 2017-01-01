@@ -255,18 +255,21 @@ def test_routing_disabled(admin_client, router, destination):
 
 
 def test_caching_enabled(admin_client, router, destination):
+    # Only sqlite3 logs a begin query within transaction
+    atomic_queries = 1 if connection.vendor == 'sqlite' else 0
+
     with override_settings(ROUTING_CACHE=True):
         with CaptureQueriesContext(connection=connection) as c:
             response = admin_client.get(router.source, follow=True)
             assert response.status_code == 200
             assert_string_equal(response.content, 'destination')
             first = len(c)
-            assert first == 5
+            assert first - atomic_queries == 5
             response = admin_client.get(router.source, follow=True)
             assert response.status_code == 200
             assert_string_equal(response.content, 'destination')
             # Should only query for user and session because of condition
-            assert len(c) - first == 2
+            assert len(c) - first - atomic_queries == 2
 
         router.delete()
 
