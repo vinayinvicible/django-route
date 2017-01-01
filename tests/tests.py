@@ -296,3 +296,14 @@ def test_stupidity_in_templates(admin_client, admin_user, router, destination):
     admin_user.delete.__dict__['alters_data'] = False
     admin_client.get(router.source, follow=True)
     admin_user.refresh_from_db()
+
+
+def test_self_reference_edge_case(router, destination, admin_client):
+    destination.url = '/'
+    destination.append_params = 'key=value'
+    destination.carry_params = True
+    destination.save()
+
+    query_str = admin_client.get('/?random=param', follow=True).request['QUERY_STRING']
+
+    assert QueryDict(query_str) == QueryDict('random=param&key=value')
