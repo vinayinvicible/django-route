@@ -1,13 +1,13 @@
+django-route
+============
+
+Conditional url routing for django
+
 .. image:: https://travis-ci.org/vinayinvicible/django-route.svg
     :target: https://travis-ci.org/vinayinvicible/django-route
 
 .. image:: https://codecov.io/gh/vinayinvicible/django-route/coverage.svg?branch=master
     :target: https://codecov.io/gh/vinayinvicible/django-route
-
-django-route
-============
-
-Conditional url routing for django
 
 Installation
 ------------
