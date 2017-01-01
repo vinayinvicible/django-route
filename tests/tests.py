@@ -1,8 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 
 import pytest
+from django.db import connection
 from django.http import QueryDict
 from django.test import override_settings
+from django.test.utils import CaptureQueriesContext
 from django.utils.crypto import constant_time_compare
 # noinspection PyUnresolvedReferences
 from django.utils.six.moves.urllib.parse import urlparse
@@ -250,3 +252,47 @@ def test_routing_disabled(admin_client, router, destination):
         response = admin_client.get(router.source, follow=True)
         assert response.status_code == 200
         assert_string_equal(response.content, 'home')
+
+
+def test_caching_enabled(admin_client, router, destination):
+    # Only sqlite3 logs a begin query within transaction
+    atomic_queries = 1 if connection.vendor == 'sqlite' else 0
+
+    with override_settings(ROUTING_CACHE=True):
+        with CaptureQueriesContext(connection=connection) as c:
+            response = admin_client.get(router.source, follow=True)
+            assert response.status_code == 200
+            assert_string_equal(response.content, 'destination')
+            first = len(c)
+            assert first - atomic_queries == 5
+            response = admin_client.get(router.source, follow=True)
+            assert response.status_code == 200
+            assert_string_equal(response.content, 'destination')
+            # Should only query for user and session because of condition
+            assert len(c) - first - atomic_queries == 2
+
+        router.delete()
+
+        with CaptureQueriesContext(connection=connection) as c:
+            response = admin_client.get(router.source, follow=True)
+            assert response.status_code == 200
+            assert_string_equal(response.content, 'home')
+            # Only the router query
+            assert len(c) == 1
+
+
+def test_stupidity_in_templates(admin_client, admin_user, router, destination):
+    """
+    Nobody would willingly set alters_data to False.
+    But if the model method is overridden in subclasses
+    alters_data needs to be set again.
+    """
+    router.condition = 'request.user.delete'
+    router.save()
+    admin_client.get(router.source, follow=True)
+    admin_user.refresh_from_db()
+
+    # setting admin_user.delete.alters_data throws errors.
+    admin_user.delete.__dict__['alters_data'] = False
+    admin_client.get(router.source, follow=True)
+    admin_user.refresh_from_db()

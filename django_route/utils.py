@@ -7,13 +7,14 @@ import string
 from functools import reduce
 
 from django.core.servers.basehttp import get_internal_wsgi_application
+from django.db import transaction
 from django.http import HttpResponseRedirect, QueryDict
 from django.template import RequestContext, Template
 # noinspection PyUnresolvedReferences
 from django.utils.six.moves.urllib.parse import urlparse, urlunparse
 
+from .cache import get_destinations, get_routers
 from .conf import settings
-from .models import Router
 
 try:
     from math import gcd
@@ -44,9 +45,10 @@ def route(request):
         return
 
     url_path = request.path_info
-    routers = Router.objects.filter(source=url_path, is_active=True)
-    for router in routers.iterator():
-        if not router.destinations.filter(is_active=True).exists():
+    routers = get_routers(source=url_path)
+    for router in routers:
+        destinations = get_destinations(router=router)
+        if not destinations:
             continue
         if should_route(condition=router.condition, request=request):
             break
@@ -60,8 +62,7 @@ def route(request):
     # seed will make sure that outcome will not change for a given session
     random.seed(request.session.session_key)
     destination = weighted_choice(
-        router.destinations.filter(is_active=True).iterator(),
-        weight_func=lambda dest: dest.weight
+        destinations, weight_func=lambda dest: dest.weight
     )
     if not destination:
         return
@@ -74,6 +75,7 @@ def route(request):
         new_params=new_params,
     )
 
+    # Handle self redirecting urls properly
     if urlparse(destination_url).path == request.path_info:
         if new_params:
             if request.GET:
@@ -136,7 +138,13 @@ def should_route(condition, request):
 
 def get_condition_result(condition, request=None):
     template = Template(CONDITION_TEMPLATE.format(condition))
-    return template.render(context=RequestContext(request=request))
+
+    # Always assume that the end-user is dumb
+    with transaction.atomic():
+        try:
+            return template.render(context=RequestContext(request=request))
+        finally:
+            transaction.set_rollback(rollback=True)
 
 
 def modify_url(old_path, new_path='', carry_params=True, new_params=None):
@@ -195,17 +203,11 @@ def get_random_key(dictionary):
 
 
 def normalize_dict_values(dictionary):
-    if not dictionary:  # pragma: no cover
-        return dictionary
-
-    l_gcd = gcd_of_list(list(dictionary.values()))
+    l_gcd = gcd_of_list(dictionary.values())
     if l_gcd:
         return {key: int(value / l_gcd) for key, value in dictionary.items()}
     return {}
 
 
 def gcd_of_list(l):
-    if not l:  # pragma: no cover
-        return
-
-    return reduce(gcd, l)
+    return reduce(gcd, l, 0)
