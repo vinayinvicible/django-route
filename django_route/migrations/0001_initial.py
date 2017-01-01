@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('weight', models.PositiveSmallIntegerField(default=1, help_text="Higher the value higher is it's preference", validators=[django.core.validators.MinValueValidator(limit_value=1)])),
-                ('url', models.CharField(max_length=255, validators=[django.core.validators.RegexValidator(re.compile('^/(?:[-a-zA-Z0-9_]+/)*$', 32), "Enter a valid 'url path'. Path should start and end with '/'.", 'invalid')])),
+                ('url', models.CharField(max_length=255, validators=[django.core.validators.RegexValidator(re.compile('^/(?:[-a-zA-Z0-9_]+/)*$'), "Enter a valid 'url path'. Path should start and end with '/'.", 'invalid')])),
                 ('carry_params', models.BooleanField(default=True, help_text='Carry forward url params')),
                 ('append_params', models.CharField(blank=True, help_text='Params to be appended', max_length=255)),
                 ('is_active', models.BooleanField(default=True, help_text='Active')),
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.SlugField(help_text='Code name for the router. Can be used as variable value inside append_params using {route_code}.', max_length=255, unique=True)),
-                ('source', models.CharField(help_text='Source path', max_length=255, validators=[django.core.validators.RegexValidator(re.compile('^/(?:[-a-zA-Z0-9_]+/)*$', 32), "Enter a valid 'url path'. Path should start and end with '/'.", 'invalid')])),
+                ('source', models.CharField(help_text='Source path', max_length=255, validators=[django.core.validators.RegexValidator(re.compile('^/(?:[-a-zA-Z0-9_]+/)*$'), "Enter a valid 'url path'. Path should start and end with '/'.", 'invalid')])),
                 ('rank', models.PositiveSmallIntegerField(default=1, help_text="Lower the value higher is it's preference", validators=[django.core.validators.MinValueValidator(limit_value=1)])),
                 ('action', models.CharField(choices=get_action_choices(), help_text='Path to be followed from source to destination', max_length=20)),
                 ('condition', models.TextField(default='"*"', help_text='Condition for routing decision')),
