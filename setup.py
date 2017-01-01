@@ -18,7 +18,8 @@ setup(
     license='MIT',
     author='Vinay Karanam',
     author_email='vinayinvicible@gmail.com',
-    description=long_description,
+    description='Conditional url routing for django',
+    long_description=long_description,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',

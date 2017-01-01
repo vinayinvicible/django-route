@@ -79,13 +79,13 @@ def route(request):
     if urlparse(destination_url).path == request.path_info:
         if new_params:
             if request.GET:
-                new_query_dict = QueryDict(new_params)
+                new_query_dict = QueryDict(new_params, mutable=True)
                 for key, values_list in request.GET.lists():
-                    if key in new_query_dict:
-                        if values_list != new_query_dict.getlist(key):
-                            break
+                    if values_list != new_query_dict.pop(key, values_list):
+                        break
                 else:
-                    return
+                    if not new_query_dict:
+                        return
         else:
             return
 
