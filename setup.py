@@ -14,7 +14,7 @@ setup(
     name='django_route',
     version=django_route.__version__,
     packages=find_packages(),
-    url='https://github.com/vinayinvicible/django-requests',
+    url='https://github.com/vinayinvicible/django-route',
     license='MIT',
     author='Vinay Karanam',
     author_email='vinayinvicible@gmail.com',
