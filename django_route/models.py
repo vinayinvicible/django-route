@@ -92,6 +92,13 @@ class Router(models.Model):
             'Condition for routing decision'
         )
     )
+    description = models.TextField(
+        default='',
+        blank=True,
+        help_text=_(
+            'Description for router (optional)'
+        )
+    )
     is_active = models.BooleanField(
         default=True, help_text=_('Active')
     )
