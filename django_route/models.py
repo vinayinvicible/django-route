@@ -93,10 +93,11 @@ class Router(models.Model):
         )
     )
     description = models.TextField(
-        default='',
+        null=True,
         blank=True,
+        default='',
         help_text=_(
-            'Description for router (optional)'
+            'Description for router'
         )
     )
     is_active = models.BooleanField(
