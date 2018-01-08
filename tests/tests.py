@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import pytest
+from django.conf import settings
 from django.db import connection
 from django.http import QueryDict
 from django.test import override_settings
@@ -307,3 +308,14 @@ def test_self_reference_edge_case(router, destination, admin_client):
     query_str = admin_client.get('/?random=param', follow=True).request['QUERY_STRING']
 
     assert QueryDict(query_str) == QueryDict('random=param&key=value')
+
+
+def test_session_initialisation(router, destination, client):
+    assert settings.SESSION_COOKIE_NAME not in client.cookies
+
+    router.condition = 'request.GET.route'
+    router.save()
+
+    client.get('/?route=true', follow=False)
+
+    assert settings.SESSION_COOKIE_NAME in client.cookies

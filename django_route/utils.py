@@ -59,6 +59,10 @@ def route(request):
         # 3. Routing condition is not satisfied
         return
 
+    # Force create session key if not initialized
+    if request.session.session_key is None:
+        request.session.create()
+
     # seed will make sure that outcome will not change for a given session
     random.seed(request.session.session_key)
     destination = weighted_choice(
@@ -122,6 +126,7 @@ class SafeFormatter(string.Formatter):
             return super(SafeFormatter, self).get_value(key, args, kwargs)
         except KeyError:
             return super(SafeFormatter, self).format('{{{0}}}', key)
+
 
 safe_format = SafeFormatter().format
 
