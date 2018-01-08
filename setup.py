@@ -7,7 +7,7 @@ import django_route
 try:
     with open('README.rst') as readme:
         long_description = readme.read()
-except:
+except OSError:
     long_description = ''
 
 setup(

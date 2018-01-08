@@ -9,4 +9,3 @@ Router
 Destination
 -----------
 .. autoclass:: django_route.models.Destination
-

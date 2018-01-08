@@ -35,6 +35,7 @@ class Destination(models.Model):
     def __str__(self):
         return '{0.weight} - {0.url}'.format(self)
 
+
 PERMANENT = '301'
 TEMPORARY = '302'
 PROXY = 'proxy'

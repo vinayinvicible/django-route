@@ -17,6 +17,7 @@ class CustomSettings(object):
                 return getattr(global_settings, item)
             raise
 
+
 settings = CustomSettings()
 
 # The CustomSettings class is no more needed, so remove it from the namespace.
