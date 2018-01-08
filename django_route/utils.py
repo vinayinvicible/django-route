@@ -135,7 +135,7 @@ safe_format = SafeFormatter().format
 def should_route(condition, request):
     try:
         return bool(get_condition_result(condition=condition, request=request))
-    except:
+    except Exception:
         if settings.DEBUG:  # pragma: no cover
             raise
         logger.debug('Error while rendering condition', exc_info=True)

@@ -31,4 +31,3 @@ If you wish to enable routing for all the urls, add ``RoutingRequestMiddleware``
         'django_route.middlewares.RoutingRequestMiddleware',
         ...
     ]
-

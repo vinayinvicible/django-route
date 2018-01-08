@@ -42,6 +42,7 @@ class RouteAdminForm(forms.ModelForm):
         return condition
 
 
+@admin.register(Router)
 class RouterAdmin(admin.ModelAdmin):
     inlines = [DestinationInline]
     form = RouteAdminForm
@@ -50,5 +51,3 @@ class RouterAdmin(admin.ModelAdmin):
         form = super(RouterAdmin, self).get_form(request, obj, **kwargs)
         form.request = request
         return form
-
-admin.site.register(Router, RouterAdmin)

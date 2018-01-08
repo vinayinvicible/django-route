@@ -19,4 +19,3 @@ Following is the pseudo code for the routing execution model::
 
         pick a random destination w.r.t their weightage
         route to the destination based on the action defined
-
