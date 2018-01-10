@@ -10,6 +10,7 @@ from django.core.servers.basehttp import get_internal_wsgi_application
 from django.db import transaction
 from django.http import HttpResponseRedirect, QueryDict
 from django.template import RequestContext, Template
+from django.utils.encoding import force_str
 # noinspection PyUnresolvedReferences
 from django.utils.six.moves.urllib.parse import urlparse, urlunparse
 
@@ -170,23 +171,28 @@ def modify_url(old_path, new_path='', carry_params=True, new_params=None):
     if not(old_path or new_path):
         return old_path
 
-    old_url_parts = list(urlparse(old_path))
-    new_url_parts = list(urlparse(new_path))
-    query_params = old_url_parts[-2] if carry_params else None
+    old_url = urlparse(old_path)
+    new_url = urlparse(new_path)
+    query_params = force_str(old_url.query) if carry_params else None
     query_dict = QueryDict(query_params, mutable=True)
 
     # XXX QueryDict.update does not replace the key but appends the value
-    for key, list_ in QueryDict(new_url_parts[-2]).lists():
+    for key, list_ in QueryDict(force_str(new_url.query)).lists():
         query_dict.setlist(key, list_)
 
     if new_params:
         # assumed to be urlencoded string
-        for key, list_ in QueryDict(new_params).lists():
+        for key, list_ in QueryDict(force_str(new_params)).lists():
             query_dict.setlist(key, list_)
 
-    new_url_parts[-2] = query_dict.urlencode()
-    new_url_parts[2] = new_url_parts[2] or old_url_parts[2]
-    return urlunparse(new_url_parts)
+    return urlunparse([
+        new_url.scheme,
+        new_url.netloc,
+        new_url.path or old_url.path,
+        new_url.params,
+        query_dict.urlencode(),
+        new_url.fragment
+    ])
 
 
 def weighted_choice(choices, weight_func):
