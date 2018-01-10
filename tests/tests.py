@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
 import pytest
@@ -46,6 +47,15 @@ def test_modify_url(old_url, new_url, carry_params, new_params, url):
         carry_params=carry_params,
         new_params=new_params
     ))
+
+
+def test_unicode_params():
+    modify_url(
+        old_path='/?param1=(╯°□°)╯',
+        new_path='/dest/?param2=(╯°□°)╯',
+        carry_params=True,
+        new_params='param3=(╯°□°)╯'
+    )
 
 
 def assert_url_equal(url1, url2):
