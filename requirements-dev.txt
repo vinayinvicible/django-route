@@ -8,3 +8,5 @@ Sphinx
 sphinx_rtd_theme
 tox
 twine
+Jinja2==2.10
+MarkupSafe==1.0
