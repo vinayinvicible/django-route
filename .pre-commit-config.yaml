@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    sha: v1.1.1
+    rev: v4.0.1
     hooks:
     -   id: trailing-whitespace
         exclude: ^\.bumpversion\.cfg$
@@ -9,4 +9,7 @@ repos:
     -   id: check-docstring-first
     -   id: check-yaml
     -   id: debug-statements
+-   repo: https://gitlab.com/pycqa/flake8
+    rev: 3.9.2
+    hooks:
     -   id: flake8

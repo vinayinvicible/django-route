@@ -24,7 +24,7 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))  # noqa
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.settings")  # noqa
 
-import django_route
+import django_route  # noqa
 
 # -- General configuration ------------------------------------------------
 

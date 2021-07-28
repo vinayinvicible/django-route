@@ -1,6 +1,4 @@
-from __future__ import absolute_import, unicode_literals
-
-from django.utils.lru_cache import lru_cache
+from functools import lru_cache
 
 from .conf import settings
 from .models import Router

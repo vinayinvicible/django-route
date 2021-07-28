@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import warnings
 
+from django.utils.deprecation import RemovedInNextVersionWarning
+
+warnings.filterwarnings("error", category=RemovedInNextVersionWarning)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

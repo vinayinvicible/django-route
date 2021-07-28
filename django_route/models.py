@@ -1,8 +1,6 @@
-from __future__ import absolute_import, unicode_literals
-
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .conf import settings
 from .validators import validate_url_path

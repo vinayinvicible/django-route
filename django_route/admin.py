@@ -1,11 +1,6 @@
-from __future__ import absolute_import, unicode_literals
-
-import sys
-
 from django import forms
 from django.contrib import admin
 from django.http import QueryDict
-from django.utils import six
 
 from .models import Destination, Router
 from .utils import get_condition_result
@@ -19,8 +14,7 @@ class DestinationForm(forms.ModelForm):
             try:
                 params = QueryDict(params).urlencode()
             except Exception as e:
-                tb = sys.exc_info()[2]
-                six.reraise(forms.ValidationError, forms.ValidationError(e), tb)
+                raise forms.ValidationError(e)
         return params
 
 
@@ -37,8 +31,7 @@ class RouteAdminForm(forms.ModelForm):
             try:
                 get_condition_result(condition=condition, request=self.request)
             except Exception as e:
-                tb = sys.exc_info()[2]
-                six.reraise(forms.ValidationError, forms.ValidationError(e), tb)
+                raise forms.ValidationError(e)
         return condition
 
 

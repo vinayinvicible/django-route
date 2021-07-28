@@ -1,26 +1,19 @@
-from __future__ import absolute_import, unicode_literals
-
 import copy
 import logging
 import random
 import string
 from functools import reduce
+from math import gcd
+from urllib.parse import urlparse, urlunparse
 
 from django.core.servers.basehttp import get_internal_wsgi_application
 from django.db import transaction
 from django.http import HttpResponseRedirect, QueryDict
 from django.template import RequestContext, Template
 from django.utils.encoding import force_str
-# noinspection PyUnresolvedReferences
-from django.utils.six.moves.urllib.parse import urlparse, urlunparse
 
 from .cache import get_destinations, get_routers
 from .conf import settings
-
-try:
-    from math import gcd
-except ImportError:  # pragma: no cover
-    from fractions import gcd
 
 CONDITION_TEMPLATE = "{{% if {} %}}True{{% endif %}}"
 
@@ -102,10 +95,6 @@ def route(request):
     parse = urlparse(destination_url)
     if settings.ENABLE_PROXY_ROUTING and router.action == router.PROXY:
         handler = get_internal_wsgi_application()
-        # noinspection PyProtectedMember
-        # django < 1.10
-        if handler._request_middleware is None:  # pragma: no cover
-            handler.load_middleware()
 
         # XXX deepcopy failes with streams
         environ = copy.copy(request.environ)
@@ -220,5 +209,5 @@ def normalize_dict_values(dictionary):
     return {}
 
 
-def gcd_of_list(l):
-    return reduce(gcd, l, 0)
+def gcd_of_list(list_):
+    return reduce(gcd, list_, 0)

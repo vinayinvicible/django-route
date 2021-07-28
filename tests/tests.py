@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
+from urllib.parse import urlparse
 
 import pytest
 from django.conf import settings
@@ -8,8 +8,7 @@ from django.http import QueryDict
 from django.test import override_settings
 from django.test.utils import CaptureQueriesContext
 from django.utils.crypto import constant_time_compare
-# noinspection PyUnresolvedReferences
-from django.utils.six.moves.urllib.parse import urlparse
+
 from django_route.utils import modify_url
 
 pytestmark = pytest.mark.django_db
