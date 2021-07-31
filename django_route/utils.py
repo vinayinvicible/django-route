@@ -9,7 +9,8 @@ from urllib.parse import urlparse, urlunparse
 from django.core.servers.basehttp import get_internal_wsgi_application
 from django.db import transaction
 from django.http import HttpResponseRedirect, QueryDict
-from django.template import RequestContext, Template
+from django.template import RequestContext
+from jinja2 import Template
 from django.utils.encoding import force_str
 
 from .cache import get_destinations, get_routers
@@ -137,7 +138,7 @@ def get_condition_result(condition, request=None):
     # Always assume that the end-user is dumb
     with transaction.atomic():
         try:
-            return template.render(context=RequestContext(request=request))
+            return template.render(request=request)
         finally:
             transaction.set_rollback(rollback=True)
 

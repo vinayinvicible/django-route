@@ -94,3 +94,5 @@ ENV/
 .ropeproject
 
 db.*
+
+.pytest_cache/
