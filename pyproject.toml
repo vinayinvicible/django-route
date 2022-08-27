@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-route"
-version = "0.2.0"
+version = "0.3.0"
 description = "Conditional url routing for django"
 authors = ["Vinay Karanam <vinayinvicible@gmail.com>"]
 license = "MIT"
