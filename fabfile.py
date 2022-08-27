@@ -1,4 +1,4 @@
-from fabric.api import task, local
+from fabric.api import local, task
 
 
 @task
@@ -8,7 +8,6 @@ def clean():
 
 @task
 def bump_version(part="patch"):
-    local("pip install --upgrade bumpversion")
     local("bumpversion {}".format(part))
     local("git push")
     local("git push --tags")
@@ -23,7 +22,4 @@ def release(part="patch"):
 @task
 def pypi():
     clean()
-    local("pip install --upgrade wheel")
-    local("python setup.py clean")
-    local("python setup.py sdist bdist_wheel")
-    local("twine upload dist/*")
+    local("poetry publish --build")

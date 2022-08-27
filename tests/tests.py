@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from urllib.parse import urlparse
 
-import pytest
 from django.conf import settings
 from django.db import connection
 from django.http import QueryDict
 from django.test import override_settings
 from django.test.utils import CaptureQueriesContext
 from django.utils.crypto import constant_time_compare
+
+import pytest
 
 from django_route.utils import modify_url
 

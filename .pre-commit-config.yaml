@@ -3,6 +3,11 @@ repos:
     rev: 22.6.0
     hooks:
     -   id: black
+-   repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        args: ["--filter-files"]
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
     rev: v4.3.0
     hooks:

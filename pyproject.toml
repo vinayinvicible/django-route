@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "django-route"
+version = "0.2.0"
+description = "Conditional url routing for django"
+authors = ["Vinay Karanam <vinayinvicible@gmail.com>"]
+license = "MIT"
+readme = "README.rst"
+homepage = "https://github.com/vinayinvicible/django-route"
+repository = "https://github.com/vinayinvicible/django-route"
+documentation = "https://django-route.readthedocs.io/"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+Django = "*"
+
+[tool.poetry.dev-dependencies]
+bump2version = "^1.0.1"
+Fabric3 = "^1.14.post1"
+pre-commit = "^2.20.0"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+pytest-django = "^4.5.2"
+Sphinx = "^5.1.1"
+sphinx-rtd-theme = "^1.0.0"
+tox = "^3.25.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+known_django = "django"
+known_firstparty = ["django_route", "tests"]
