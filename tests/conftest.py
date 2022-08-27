@@ -9,10 +9,10 @@ pytestmark = pytest.mark.django_db
 @pytest.fixture
 def router(transactional_db):
     return Router.objects.create(
-        code='router',
-        source='/',
-        action='301',
-        condition='request.user.is_authenticated',
+        code="router",
+        source="/",
+        action="301",
+        condition="request.user.is_authenticated",
     )
 
 
@@ -20,6 +20,6 @@ def router(transactional_db):
 @pytest.fixture
 def destination(router, transactional_db):
     return Destination.objects.create(
-        url='/destination/',
+        url="/destination/",
         router=router,
     )

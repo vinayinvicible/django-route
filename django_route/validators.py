@@ -6,13 +6,15 @@ from django.utils.translation import gettext_lazy as _
 from .conf import settings
 
 url_path_re = re.compile(
-    r'^/(?:[-a-zA-Z0-9_]+/{})*$'.format(r'' if settings.APPEND_SLASH else r'?')
+    r"^/(?:[-a-zA-Z0-9_]+/{})*$".format(r"" if settings.APPEND_SLASH else r"?")
 )
 
 validate_url_path = RegexValidator(
     url_path_re,
-    _("Enter a valid 'url path'. Path should start {}with '/'.".format(
-        'and end ' if settings.APPEND_SLASH else ''
-    )),
-    'invalid'
+    _(
+        "Enter a valid 'url path'. Path should start {}with '/'.".format(
+            "and end " if settings.APPEND_SLASH else ""
+        )
+    ),
+    "invalid",
 )

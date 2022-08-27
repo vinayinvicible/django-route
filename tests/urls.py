@@ -18,8 +18,8 @@ def test_view(request, response):
 
 
 urlpatterns = [
-    re_path(r'^$', partial(test_view, response='home')),
-    re_path(r'^destination/$', partial(test_view, response='destination')),
-    re_path(r'^admin/', admin.site.urls),
+    re_path(r"^$", partial(test_view, response="home")),
+    re_path(r"^destination/$", partial(test_view, response="destination")),
+    re_path(r"^admin/", admin.site.urls),
 ]
 urlpatterns += staticfiles_urlpatterns()

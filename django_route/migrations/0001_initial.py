@@ -12,13 +12,13 @@ import django_route.conf
 def get_action_choices():
     if django_route.conf.settings.ENABLE_PROXY_ROUTING:
         return (
-            ('301', 'Permanent redirect'),
-            ('302', 'Temporary redirect'),
-            ('proxy', 'Proxy to destination'),
+            ("301", "Permanent redirect"),
+            ("302", "Temporary redirect"),
+            ("proxy", "Proxy to destination"),
         )
     return (
-        ('301', 'Permanent redirect'),
-        ('302', 'Temporary redirect'),
+        ("301", "Permanent redirect"),
+        ("302", "Temporary redirect"),
     )
 
 
@@ -26,47 +26,138 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Destination',
+            name="Destination",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('weight', models.PositiveSmallIntegerField(default=1, help_text="Higher the value higher is it's preference", validators=[django.core.validators.MinValueValidator(limit_value=1)])),
-                ('url', models.CharField(max_length=255, validators=[django.core.validators.RegexValidator(re.compile('^/(?:[-a-zA-Z0-9_]+/)*$'), "Enter a valid 'url path'. Path should start and end with '/'.", 'invalid')])),
-                ('carry_params', models.BooleanField(default=True, help_text='Carry forward url params')),
-                ('append_params', models.CharField(blank=True, help_text='Params to be appended', max_length=255)),
-                ('is_active', models.BooleanField(default=True, help_text='Active')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "weight",
+                    models.PositiveSmallIntegerField(
+                        default=1,
+                        help_text="Higher the value higher is it's preference",
+                        validators=[
+                            django.core.validators.MinValueValidator(limit_value=1)
+                        ],
+                    ),
+                ),
+                (
+                    "url",
+                    models.CharField(
+                        max_length=255,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                re.compile("^/(?:[-a-zA-Z0-9_]+/)*$"),
+                                "Enter a valid 'url path'. Path should start and end with '/'.",
+                                "invalid",
+                            )
+                        ],
+                    ),
+                ),
+                (
+                    "carry_params",
+                    models.BooleanField(
+                        default=True, help_text="Carry forward url params"
+                    ),
+                ),
+                (
+                    "append_params",
+                    models.CharField(
+                        blank=True, help_text="Params to be appended", max_length=255
+                    ),
+                ),
+                ("is_active", models.BooleanField(default=True, help_text="Active")),
             ],
         ),
         migrations.CreateModel(
-            name='Router',
+            name="Router",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.SlugField(help_text='Code name for the router. Can be used as variable value inside append_params using {route_code}.', max_length=255, unique=True)),
-                ('source', models.CharField(help_text='Source path', max_length=255, validators=[django.core.validators.RegexValidator(re.compile('^/(?:[-a-zA-Z0-9_]+/)*$'), "Enter a valid 'url path'. Path should start and end with '/'.", 'invalid')])),
-                ('rank', models.PositiveSmallIntegerField(default=1, help_text="Lower the value higher is it's preference", validators=[django.core.validators.MinValueValidator(limit_value=1)])),
-                ('action', models.CharField(choices=get_action_choices(), help_text='Path to be followed from source to destination', max_length=20)),
-                ('condition', models.TextField(default='"*"', help_text='Condition for routing decision')),
-                ('is_active', models.BooleanField(default=True, help_text='Active')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "code",
+                    models.SlugField(
+                        help_text="Code name for the router. Can be used as variable value inside append_params using {route_code}.",
+                        max_length=255,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "source",
+                    models.CharField(
+                        help_text="Source path",
+                        max_length=255,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                re.compile("^/(?:[-a-zA-Z0-9_]+/)*$"),
+                                "Enter a valid 'url path'. Path should start and end with '/'.",
+                                "invalid",
+                            )
+                        ],
+                    ),
+                ),
+                (
+                    "rank",
+                    models.PositiveSmallIntegerField(
+                        default=1,
+                        help_text="Lower the value higher is it's preference",
+                        validators=[
+                            django.core.validators.MinValueValidator(limit_value=1)
+                        ],
+                    ),
+                ),
+                (
+                    "action",
+                    models.CharField(
+                        choices=get_action_choices(),
+                        help_text="Path to be followed from source to destination",
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "condition",
+                    models.TextField(
+                        default='"*"', help_text="Condition for routing decision"
+                    ),
+                ),
+                ("is_active", models.BooleanField(default=True, help_text="Active")),
             ],
             options={
-                'ordering': ['source', 'rank'],
+                "ordering": ["source", "rank"],
             },
         ),
         migrations.AlterUniqueTogether(
-            name='router',
-            unique_together=set([('source', 'rank')]),
+            name="router",
+            unique_together=set([("source", "rank")]),
         ),
         migrations.AddField(
-            model_name='destination',
-            name='router',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='destinations', to='django_route.Router'),
+            model_name="destination",
+            name="router",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="destinations",
+                to="django_route.Router",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='destination',
-            unique_together=set([('router', 'url', 'append_params')]),
+            name="destination",
+            unique_together=set([("router", "url", "append_params")]),
         ),
     ]

@@ -17,7 +17,7 @@ from .conf import settings
 
 CONDITION_TEMPLATE = "{{% if {} %}}True{{% endif %}}"
 
-logger = logging.getLogger('django_route')
+logger = logging.getLogger("django_route")
 logger.setLevel(logging.DEBUG)
 
 
@@ -26,7 +26,7 @@ def route(request):
     if not settings.ROUTING_ENABLED:
         return
 
-    if getattr(request, 'routing_processed', False):
+    if getattr(request, "routing_processed", False):
         return
 
     # Avoid checking the request twice by adding a custom attribute to
@@ -35,7 +35,7 @@ def route(request):
     request.routing_processed = True
 
     # Routing only the 'safe' methods.
-    if request.method not in ('GET', 'HEAD', 'OPTIONS', 'TRACE'):
+    if request.method not in ("GET", "HEAD", "OPTIONS", "TRACE"):
         return
 
     url_path = request.path_info
@@ -59,9 +59,7 @@ def route(request):
 
     # seed will make sure that outcome will not change for a given session
     random.seed(request.session.session_key)
-    destination = weighted_choice(
-        destinations, weight_func=lambda dest: dest.weight
-    )
+    destination = weighted_choice(destinations, weight_func=lambda dest: dest.weight)
     if not destination:
         return
 
@@ -98,8 +96,8 @@ def route(request):
 
         # XXX deepcopy failes with streams
         environ = copy.copy(request.environ)
-        environ['PATH_INFO'] = destination.url
-        environ['QUERY_STRING'] = parse.query
+        environ["PATH_INFO"] = destination.url
+        environ["QUERY_STRING"] = parse.query
         proxy_request = handler.request_class(environ=environ)
         # XXX We are doing this to avoid potential deadlocks or possible
         # data corruption with data being read multiple times from input stream
@@ -115,7 +113,7 @@ class SafeFormatter(string.Formatter):
         try:
             return super(SafeFormatter, self).get_value(key, args, kwargs)
         except KeyError:
-            return super(SafeFormatter, self).format('{{{0}}}', key)
+            return super(SafeFormatter, self).format("{{{0}}}", key)
 
 
 safe_format = SafeFormatter().format
@@ -128,7 +126,7 @@ def should_route(condition, request):
     except Exception:
         if settings.DEBUG:  # pragma: no cover
             raise
-        logger.debug('Error while rendering condition', exc_info=True)
+        logger.debug("Error while rendering condition", exc_info=True)
 
 
 def get_condition_result(condition, request=None):
@@ -142,7 +140,7 @@ def get_condition_result(condition, request=None):
             transaction.set_rollback(rollback=True)
 
 
-def modify_url(old_path, new_path='', carry_params=True, new_params=None):
+def modify_url(old_path, new_path="", carry_params=True, new_params=None):
     """
     Returns a new path based on the following conditions
         if new_path is not given
@@ -157,7 +155,7 @@ def modify_url(old_path, new_path='', carry_params=True, new_params=None):
     :param new_params: Appends the given query params
     :return: url path
     """
-    if not(old_path or new_path):
+    if not (old_path or new_path):
         return old_path
 
     old_url = urlparse(old_path)
@@ -174,19 +172,21 @@ def modify_url(old_path, new_path='', carry_params=True, new_params=None):
         for key, list_ in QueryDict(force_str(new_params)).lists():
             query_dict.setlist(key, list_)
 
-    return urlunparse([
-        new_url.scheme,
-        new_url.netloc,
-        new_url.path or old_url.path,
-        new_url.params,
-        query_dict.urlencode(),
-        new_url.fragment
-    ])
+    return urlunparse(
+        [
+            new_url.scheme,
+            new_url.netloc,
+            new_url.path or old_url.path,
+            new_url.params,
+            query_dict.urlencode(),
+            new_url.fragment,
+        ]
+    )
 
 
 def weighted_choice(choices, weight_func):
     if not callable(weight_func):  # pragma: no cover
-        raise ValueError('weight_func should be a callable')
+        raise ValueError("weight_func should be a callable")
 
     dictionary = {choice: weight_func(choice) for choice in choices}
     return get_random_key(dictionary=dictionary)

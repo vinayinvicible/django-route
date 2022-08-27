@@ -2,11 +2,10 @@ from django.conf import settings as django_settings
 
 from . import global_settings
 
-__all__ = ['settings']
+__all__ = ["settings"]
 
 
 class CustomSettings(object):
-
     def __getattr__(self, item):
         try:
             return getattr(django_settings, item)

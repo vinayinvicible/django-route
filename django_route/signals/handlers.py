@@ -9,7 +9,7 @@ from ..models import Destination, Router
 # noinspection PyUnusedLocal
 @receiver(post_save, sender=Destination)
 def destination_post_save(instance, **kwargs):
-    if hasattr(transaction, 'on_commit'):
+    if hasattr(transaction, "on_commit"):
         transaction.on_commit(clear_destination_cache)
     else:
         clear_destination_cache()
@@ -18,7 +18,7 @@ def destination_post_save(instance, **kwargs):
 # noinspection PyUnusedLocal
 @receiver(post_delete, sender=Destination)
 def destination_post_delete(instance, **kwargs):
-    if hasattr(transaction, 'on_commit'):
+    if hasattr(transaction, "on_commit"):
         transaction.on_commit(clear_destination_cache)
     else:
         clear_destination_cache()
@@ -27,7 +27,7 @@ def destination_post_delete(instance, **kwargs):
 # noinspection PyUnusedLocal
 @receiver(post_save, sender=Router)
 def router_post_save(instance, **kwargs):
-    if hasattr(transaction, 'on_commit'):
+    if hasattr(transaction, "on_commit"):
         transaction.on_commit(clear_router_cache)
     else:
         clear_router_cache()
@@ -36,7 +36,7 @@ def router_post_save(instance, **kwargs):
 # noinspection PyUnusedLocal
 @receiver(post_delete, sender=Router)
 def router_deleted(instance, **kwargs):
-    if hasattr(transaction, 'on_commit'):
+    if hasattr(transaction, "on_commit"):
         transaction.on_commit(clear_router_cache)
     else:
         clear_router_cache()

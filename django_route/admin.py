@@ -7,9 +7,8 @@ from .utils import get_condition_result
 
 
 class DestinationForm(forms.ModelForm):
-
     def clean_append_params(self):
-        params = self.cleaned_data.get('append_params')
+        params = self.cleaned_data.get("append_params")
         if params:
             try:
                 params = QueryDict(params).urlencode()
@@ -24,9 +23,8 @@ class DestinationInline(admin.TabularInline):
 
 
 class RouteAdminForm(forms.ModelForm):
-
     def clean_condition(self):
-        condition = self.cleaned_data.get('condition')
+        condition = self.cleaned_data.get("condition")
         if condition:
             try:
                 get_condition_result(condition=condition, request=self.request)
