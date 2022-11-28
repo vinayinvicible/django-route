@@ -9,7 +9,7 @@ repos:
       - id: isort
         args: ["--filter-files"]
 -   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
     -   id: trailing-whitespace
         exclude: ^\.bumpversion\.cfg$
@@ -19,6 +19,6 @@ repos:
     -   id: check-yaml
     -   id: debug-statements
 -   repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
+    rev: 6.0.0
     hooks:
     -   id: flake8
