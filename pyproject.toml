@@ -10,7 +10,7 @@ repository = "https://github.com/vinayinvicible/django-route"
 documentation = "https://django-route.readthedocs.io/"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 Django = "*"
 
 [tool.poetry.dev-dependencies]
