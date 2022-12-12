@@ -27,9 +27,6 @@ jobs:
           - 'django40'
           - 'django41'
         include:
-          - python-version: '3.6'
-            toxenv: 'django32'
-            os: [ubuntu-latest]
           - python-version: '3.7'
             toxenv: 'django32'
             os: [ubuntu-latest]
