@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # django-route documentation build configuration file, created by
 # sphinx-quickstart on Sun Oct  9 05:15:00 2016.
@@ -384,14 +383,14 @@ def process_docstring(app, what, name, obj, options, lines):
             if help_text:
                 # Add the model field to the end of the docstring as a param
                 # using the help text as the description
-                lines.append(":param %s: %s" % (field.attname, help_text))
+                lines.append(f":param {field.attname}: {help_text}")
             else:
                 # Add the model field to the end of the docstring as a param
                 # using the verbose name as the description
-                lines.append(":param %s: %s" % (field.attname, verbose_name))
+                lines.append(f":param {field.attname}: {verbose_name}")
 
             # Add the field's type to the docstring
-            lines.append(":type %s: %s" % (field.attname, type(field).__name__))
+            lines.append(f":type {field.attname}: {type(field).__name__}")
 
     # Return the extended docstring
     return lines

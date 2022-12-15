@@ -111,9 +111,9 @@ def route(request):
 class SafeFormatter(string.Formatter):
     def get_value(self, key, args, kwargs):
         try:
-            return super(SafeFormatter, self).get_value(key, args, kwargs)
+            return super().get_value(key, args, kwargs)
         except KeyError:
-            return super(SafeFormatter, self).format("{{{0}}}", key)
+            return super().format("{{{0}}}", key)
 
 
 safe_format = SafeFormatter().format

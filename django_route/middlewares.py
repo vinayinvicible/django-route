@@ -4,7 +4,7 @@ try:
     from django.utils.deprecation import MiddlewareMixin
 except ImportError:  # pragma: no cover
 
-    class MiddlewareMixin(object):
+    class MiddlewareMixin:
         pass
 
 

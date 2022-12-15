@@ -5,7 +5,7 @@ from . import global_settings
 __all__ = ["settings"]
 
 
-class CustomSettings(object):
+class CustomSettings:
     def __getattr__(self, item):
         try:
             return getattr(django_settings, item)

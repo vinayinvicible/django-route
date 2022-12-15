@@ -8,7 +8,7 @@ def clean():
 
 @task
 def bump_version(part="patch"):
-    local("bumpversion {}".format(part))
+    local(f"bumpversion {part}")
     local("git push")
     local("git push --tags")
 

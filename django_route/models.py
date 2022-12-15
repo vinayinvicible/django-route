@@ -35,7 +35,7 @@ class Destination(models.Model):
         help_text=_("Active"),
     )
 
-    class Meta(object):
+    class Meta:
         unique_together = ("router", "url", "append_params")
 
     def __str__(self):
@@ -102,7 +102,7 @@ class Router(models.Model):
     )
     is_active = models.BooleanField(default=True, help_text=_("Active"))
 
-    class Meta(object):
+    class Meta:
         ordering = ["source", "rank"]
         unique_together = ("source", "rank")
 

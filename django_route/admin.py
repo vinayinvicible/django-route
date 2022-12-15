@@ -39,6 +39,6 @@ class RouterAdmin(admin.ModelAdmin):
     form = RouteAdminForm
 
     def get_form(self, request, obj=None, **kwargs):
-        form = super(RouterAdmin, self).get_form(request, obj, **kwargs)
+        form = super().get_form(request, obj, **kwargs)
         form.request = request
         return form
