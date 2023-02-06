@@ -22,7 +22,6 @@ def get_action_choices():
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
