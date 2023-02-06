@@ -113,7 +113,6 @@ def assert_string_equal(str1, str2):
 
 
 def test_empty_router(client, admin_client, router):
-
     response = client.get(router.source, follow=False)
     assert response.status_code == 200
     assert_string_equal(response.content, "home")
